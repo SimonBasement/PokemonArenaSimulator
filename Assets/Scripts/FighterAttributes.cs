@@ -7,6 +7,7 @@ public class FighterAttributes : MonoBehaviour
     [SerializeField] private string _name;
     [SerializeField] private int _health;
     [SerializeField] private int _damage;
+    [SerializeField] public Attacks Attack1;
 
     private int _startHealth;
 
@@ -18,14 +19,10 @@ public class FighterAttributes : MonoBehaviour
         _startHealth = _health;  
     }
 
-    public int GetHealth()
-        { return _health; }
-
-    public int GetStartHealth()
-        { return _startHealth; }
-
-    public int GetDamage()
-        { return _damage; }
+    public int GetHealth() { return _health; }
+    public int GetStartHealth() { return _startHealth; }
+    public int GetDamage() { return _damage; }
+    public string GetName() { return _name; }  
 
     public void SetHealth(int damage)
     {

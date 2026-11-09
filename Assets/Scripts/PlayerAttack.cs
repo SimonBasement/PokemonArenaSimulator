@@ -23,6 +23,7 @@ public class PlayerAttack : MonoBehaviour
         if (hasTurn)
         {
             int damage = attributes.GetDamage();
+            damage += attributes.Attack1.damage;
             targetAttributes.SetHealth(damage);
             targetHealthBar.ValueChange();
             hasTurn = false;

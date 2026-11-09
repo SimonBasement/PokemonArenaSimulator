@@ -11,10 +11,22 @@ public class TurnManager : MonoBehaviour
 
     private PlayerAttack _playerFighterAttack;
     private PlayerAttack _enemyFighterAttack;
+
+    private FighterAttributes _playerFighterAttributes;
+    private FighterAttributes _enemyFighterAttributes;
+
+    private string _playerFighterName;
+    private string _enemyFighterName;
     void Start()
     {
         _playerFighterAttack = _playerFighter.GetComponent<PlayerAttack>();
         _enemyFighterAttack = _enemyFighter.GetComponent<PlayerAttack>();
+
+        _playerFighterAttributes = _playerFighter.GetComponent<FighterAttributes>();
+        _enemyFighterAttributes = _enemyFighter.GetComponent<FighterAttributes>();
+
+        _playerFighterName = _playerFighterAttributes.GetName();
+        _enemyFighterName = _enemyFighterAttributes.GetName();
 
         _playerFighterAttack.hasTurn = true;
 
@@ -27,7 +39,7 @@ public class TurnManager : MonoBehaviour
         if (!_playerFighterAttack.hasTurn)
         {
             _enemyFighterAttack.hasTurn = true;
-            _announcer.text = "Player attacked!";
+            _announcer.text = _playerFighterName + " attacked!";
             StartCoroutine(ExecuteTurn());
 
         }
@@ -37,7 +49,7 @@ public class TurnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        _announcer.text = "Enemy attacked!";
+        _announcer.text = _enemyFighterName + " attacked!";
 
         _enemyFighterAttack.Attack();
         _playerFighterAttack.hasTurn = true;
