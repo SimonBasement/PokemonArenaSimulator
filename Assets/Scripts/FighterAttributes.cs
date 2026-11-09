@@ -5,12 +5,12 @@ using UnityEngine.UI;
 public class FighterAttributes : MonoBehaviour
 {
     private string _name;
-    private int _health;
+    [SerializeField] private int _health;
     private int _startHealth;
     private int _damage;
 
-    [SerializeField] private Slider healthBar;
-    [SerializeField] private FighterAttributes enemy;
+    [SerializeField] private HealthBarUpdater enemyHealthBar;
+    [SerializeField] private FighterAttributes enemyAttributes;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,13 +22,16 @@ public class FighterAttributes : MonoBehaviour
         
     }
 
-    private void Update()
-    {
-        healthBar.value = (float)_health / _startHealth * 100;
-    }
+    public int GetHealth()
+        { return _health; }
+
+    public int GetStartHealth()
+        { return _startHealth; }
+
 
     public void Attack()
     {
-        enemy._health -= _damage;
+        enemyAttributes._health -= _damage;
+        enemyHealthBar.ValueChange();
     }
 }
