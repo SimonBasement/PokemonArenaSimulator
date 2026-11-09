@@ -36,20 +36,17 @@ public class TurnManager : MonoBehaviour
 
     private void Update()
     {
+
         if (!_playerFighterAttack.hasTurn)
         {
             _enemyFighterAttack.hasTurn = true;
-            _announcer.text = _playerFighterName + " attacked!";
             StartCoroutine(ExecuteTurn());
-
         }
     }
 
     IEnumerator ExecuteTurn()
     {
         yield return new WaitForSeconds(1);
-
-        _announcer.text = _enemyFighterName + " attacked!";
 
         _enemyFighterAttack.Attack();
         _playerFighterAttack.hasTurn = true;
