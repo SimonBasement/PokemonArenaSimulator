@@ -4,22 +4,18 @@ using UnityEngine.UI;
 
 public class FighterAttributes : MonoBehaviour
 {
-    private string _name;
+    [SerializeField] private string _name;
     [SerializeField] private int _health;
+    [SerializeField] private int _damage;
+
     private int _startHealth;
-    private int _damage;
 
     [SerializeField] private HealthBarUpdater enemyHealthBar;
-    [SerializeField] private FighterAttributes enemyAttributes;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _name = "Bulbor";
-        _health = 100;
-        _startHealth = _health;
-        _damage = 10;
-        
-        
+        _startHealth = _health;  
     }
 
     public int GetHealth()
@@ -28,10 +24,12 @@ public class FighterAttributes : MonoBehaviour
     public int GetStartHealth()
         { return _startHealth; }
 
+    public int GetDamage()
+        { return _damage; }
 
-    public void Attack()
+    public void SetHealth(int damage)
     {
-        enemyAttributes._health -= _damage;
-        enemyHealthBar.ValueChange();
+        _health -= damage;
     }
+
 }

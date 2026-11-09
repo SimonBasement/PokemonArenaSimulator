@@ -15,7 +15,6 @@ public class HealthBarUpdater : MonoBehaviour
     {
         int startHelath = _fighterAttributes.GetStartHealth();
         int newHealth = _fighterAttributes.GetHealth();
-        Debug.Log(newHealth);
         _slider.value = (float)newHealth / startHelath;
     }
 }
