@@ -1,43 +1,70 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class PlayerAttack : MonoBehaviour
 {
-    FighterAttributes attributes;
+    private FighterAttributes _attributes;
 
-    [SerializeField] GameObject target;
+    [SerializeField] private GameObject _target;
     [SerializeField] private TextMeshProUGUI _announcer;
 
 
-    private FighterAttributes targetAttributes;
-    private HealthBarUpdater targetHealthBar;
+    private FighterAttributes _targetAttributes;
+    private HealthBarUpdater _targetHealthBar;
 
-    public bool hasTurn;
+    public bool HasTurn;
 
     private void Start()
     {
-        attributes = GetComponent<FighterAttributes>();
+        _attributes = GetComponent<FighterAttributes>();
 
-        targetAttributes = target.GetComponent<FighterAttributes>();
-        targetHealthBar = target.GetComponent<HealthBarUpdater>();
+        _targetAttributes = _target.GetComponent<FighterAttributes>();
+        _targetHealthBar = _target.GetComponent<HealthBarUpdater>();
     }
 
-    public void Attack()
+    public void Attack1()
     {
-        if (hasTurn)
-        {
-            int damage = CalculateDamage(attributes.Attack1.damage, attributes.GetDamage());
-            targetAttributes.SetHealth(damage);
-            targetHealthBar.ValueChange();
-            hasTurn = false;
-            _announcer.text = attributes.GetName() + " used " + attributes.Attack1.name;
-        }
-
+        ExecuteAttack(_attributes.Attack1);
+    }
+    public void Attack2()
+    {
+        ExecuteAttack(_attributes.Attack2);
     }
 
-    public int CalculateDamage(int attackDamage, int fighterDamage)
+    public void ExecuteAttack(Attacks attack)
+    {
+        if (HasTurn)
+        {
+            if (attack.AttackType == AttackType.Damage)
+            {
+                int damage = CalculateDamage(attack.Damage, _attributes.GetDamage());
+                _targetAttributes.SetHealth(damage);
+                _targetHealthBar.ValueChange();
+                HasTurn = false;
+                _announcer.text = _attributes.GetName() + " used " + attack.name;
+            }
+            if (attack.AttackType == AttackType.Nerf)
+            {
+                int nerf = CalculateNerf(attack.Damage, _attributes.GetSpecialAttack());
+                _targetAttributes.SetDamage(nerf);
+                HasTurn = false;
+                _announcer.text = _attributes.GetName() + " used " + attack.name;
+            }
+
+        }
+    }
+
+    private int CalculateDamage(int attackDamage, int fighterDamage)
     {
         int damage = attackDamage + fighterDamage;
         return damage;
     }
+
+    private int CalculateNerf(int attackNerf, int fighterSpecial)
+    {
+        int nerf = attackNerf + fighterSpecial;
+        return nerf;
+    }
+
 }

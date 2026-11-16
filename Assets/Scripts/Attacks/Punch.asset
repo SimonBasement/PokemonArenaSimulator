@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Punch
   m_EditorClassIdentifier: Assembly-CSharp::Attacks
   AttackName: Punch
-  damage: 20
+  Damage: 20

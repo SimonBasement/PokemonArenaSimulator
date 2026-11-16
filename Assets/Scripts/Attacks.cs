@@ -4,5 +4,6 @@ using UnityEngine;
 public class Attacks : ScriptableObject
 {
     public string AttackName;
-    public int damage;
+    public int Damage;
+    [SerializeField] public AttackType AttackType;
 }

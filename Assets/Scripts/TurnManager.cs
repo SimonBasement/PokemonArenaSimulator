@@ -15,8 +15,10 @@ public class TurnManager : MonoBehaviour
     private FighterAttributes _playerFighterAttributes;
     private FighterAttributes _enemyFighterAttributes;
 
-    private string _playerFighterName;
-    private string _enemyFighterName;
+    [SerializeField] private TextMeshProUGUI _attack1Button;
+    [SerializeField] private TextMeshProUGUI _attack2Button;
+
+
     void Start()
     {
         _playerFighterAttack = _playerFighter.GetComponent<PlayerAttack>();
@@ -25,21 +27,21 @@ public class TurnManager : MonoBehaviour
         _playerFighterAttributes = _playerFighter.GetComponent<FighterAttributes>();
         _enemyFighterAttributes = _enemyFighter.GetComponent<FighterAttributes>();
 
-        _playerFighterName = _playerFighterAttributes.GetName();
-        _enemyFighterName = _enemyFighterAttributes.GetName();
-
-        _playerFighterAttack.hasTurn = true;
+        _playerFighterAttack.HasTurn = true;
 
         _announcer.text = "Fight started!";
+
+        _attack1Button.text = _playerFighterAttributes.Attack1.name;
+        _attack2Button.text = _playerFighterAttributes.Attack2.name;
 
     }
 
     private void Update()
     {
 
-        if (!_playerFighterAttack.hasTurn)
+        if (!_playerFighterAttack.HasTurn)
         {
-            _enemyFighterAttack.hasTurn = true;
+            _enemyFighterAttack.HasTurn = true;
             StartCoroutine(ExecuteTurn());
         }
     }
@@ -48,8 +50,8 @@ public class TurnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        _enemyFighterAttack.Attack();
-        _playerFighterAttack.hasTurn = true;
+        _enemyFighterAttack.Attack1();
+        _playerFighterAttack.HasTurn = true;
     }
 
 }
