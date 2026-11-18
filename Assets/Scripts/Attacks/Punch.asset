@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attacks
   AttackName: Punch
   Damage: 20
+  AttackPrecision: 75
+  AttackType: 0

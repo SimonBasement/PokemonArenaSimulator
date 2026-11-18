@@ -8,7 +8,10 @@ public class FighterAttributes : MonoBehaviour
     [SerializeField] private string _name;
     [SerializeField] private int _health;
     [SerializeField] private int _damage;
+    [SerializeField] private int _agility;
+    [SerializeField] private int _precision;
     [SerializeField] private int _specialAttack;
+    [SerializeField] private int _specialDefense;
     [SerializeField] private int _defense;
     [SerializeField] public Attacks Attack1;
     [SerializeField] public Attacks Attack2;
@@ -28,18 +31,20 @@ public class FighterAttributes : MonoBehaviour
     public int GetHealth() { return _health; }
     public int GetStartHealth() { return _startHealth; }
     public int GetDamage() { return _damage; }
+    public int GetAgility() { return _agility; }
+    public int GetPrecision() { return _precision; }
     public int GetSpecialAttack() { return _specialAttack; }
-    public int GetFense() { return _defense; }
+    public int GetSpecialDefense() { return _specialDefense; }
+    public int GetDefense() { return _defense; }
     public string GetName() { return _name; }  
 
-    public void SetHealth(int damage)
+    public void ReduceHealth(int damage)
     {
-        _health -= damage - (damage * (_defense / 100));
+        _health -= damage;
     }
 
-    public void SetDamage(int nerf)
+    public void ReduceDamage(int nerf)
     {
-        nerf = _damage * nerf / 100;
         _damage -= nerf;
     }
 }

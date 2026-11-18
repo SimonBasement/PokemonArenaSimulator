@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attacks
   AttackName: Scratch
   Damage: 10
+  AttackPrecision: 80
+  AttackType: 0
