@@ -14,6 +14,7 @@ public class PlayerAttack : MonoBehaviour
     private HealthBarUpdater _targetHealthBar;
 
     public bool HasTurn;
+    private bool _hasTarget;
 
     private Animator _playerAnimator;
     private Animator _targetAnimator;
@@ -41,6 +42,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (HasTurn) //Check if its the fighters turn
         {
+            If
             _playerAnimator.SetTrigger("TriggerAttackAnimation");
             if (CheckIfMissed(attack.AttackPrecision, _attributes.GetPrecision(), _targetAttributes.GetAgility())) //Check if attack missed
             {
@@ -73,6 +75,15 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    private void GetTarget(GameObject target)
+    {
+
+    }
+
+    private void HandleClick(Vector2 screenClickPosition)
+    {
+
+    }
     private bool CheckIfMissed(int attackChance, int attackerPrecision, int targetAgility)
     {
         int hitChance = attackChance + attackerPrecision - targetAgility;
