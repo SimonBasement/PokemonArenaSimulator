@@ -15,4 +15,5 @@ MonoBehaviour:
   AttackName: Punch
   Damage: 20
   AttackPrecision: 75
+  StaminaCost: 20
   AttackType: 0

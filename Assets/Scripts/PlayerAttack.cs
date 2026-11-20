@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.InputSystem;
+using UnityEngineInternal;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -42,48 +44,79 @@ public class PlayerAttack : MonoBehaviour
     {
         if (HasTurn) //Check if its the fighters turn
         {
-            If
-            _playerAnimator.SetTrigger("TriggerAttackAnimation");
-            if (CheckIfMissed(attack.AttackPrecision, _attributes.GetPrecision(), _targetAttributes.GetAgility())) //Check if attack missed
+            if (_attributes.GetStamina() >= attack.StaminaCost) //check if fighter has enough stamina
             {
-                if (attack.AttackType == AttackType.Damage)
+                _attributes.ReduceStamina(attack.StaminaCost); //reduce StaminaCost
+                //_hasTarget = false;
+                //GetTarget();
+                _playerAnimator.SetTrigger("TriggerAttackAnimation"); //start Attack animation
+                //StartCoroutine(WaitForAnimationFinish(5));
+                if (CheckIfMissed(attack.AttackPrecision, _attributes.GetPrecision(), _targetAttributes.GetAgility())) //Check if attack missed
                 {
-                    int damage = CalculateDamage(attack.Damage, _attributes.GetDamage(), _targetAttributes.GetDefense());
-                    _targetAttributes.ReduceHealth(damage);
-                    _targetHealthBar.ValueChange();
+                    if (attack.AttackType == AttackType.Damage)
+                    {
+                        int damage = CalculateDamage(attack.Damage, _attributes.GetDamage(), _targetAttributes.GetDefense());
+                        _targetAttributes.ReduceHealth(damage);
+                        _targetHealthBar.ValueChange();
 
-                    HasTurn = false;
-                    _announcer.text = _attributes.GetName() + " used " + attack.name;
+                        HasTurn = false;
+                        _announcer.text = _attributes.GetName() + " used " + attack.name;
 
-                    _targetAnimator.SetTrigger("TriggerGotHit");
+                        _targetAnimator.SetTrigger("TriggerGotHit");
+                    }
+                    if (attack.AttackType == AttackType.Nerf)
+                    {
+                        int nerf = CalculateNerf(attack.Damage, _attributes.GetSpecialAttack(), _targetAttributes.GetSpecialDefense());
+                        _targetAttributes.ReduceDamage(nerf);
+                        HasTurn = false;
+                        _announcer.text = _attributes.GetName() + " used " + attack.name;
+                    }
                 }
-                if (attack.AttackType == AttackType.Nerf)
+                else //when missed
                 {
-                    int nerf = CalculateNerf(attack.Damage, _attributes.GetSpecialAttack(), _targetAttributes.GetSpecialDefense());
-                    _targetAttributes.ReduceDamage(nerf);
                     HasTurn = false;
-                    _announcer.text = _attributes.GetName() + " used " + attack.name;
+                    _announcer.text = _attributes.GetName() + "s attack missed!";
                 }
             }
-            else
+            else //when not enough stamina
             {
                 HasTurn = false;
-                _announcer.text = _attributes.GetName() + "s attack missed!";
+                _announcer.text = _attributes.GetName() + " doesnt have enough Stamina for this move";
             }
+
 
 
         }
+        _attributes.GainStamina();
     }
 
-    private void GetTarget(GameObject target)
+    IEnumerator WaitForAnimationFinish(int time)
     {
-
+        yield return new WaitForSeconds(time);
     }
 
-    private void HandleClick(Vector2 screenClickPosition)
+    private void GetTarget()
     {
+        while (!_hasTarget)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up);
+                if (hit.transform.CompareTag("Enemy"))
+                {
+                    _target = hit.transform.gameObject;
+
+                    _targetAttributes = _target.GetComponent<FighterAttributes>();
+                    _targetHealthBar = _target.GetComponent<HealthBarUpdater>();
+                    _targetAnimator = _target.GetComponent<Animator>();
+
+                    _hasTarget = true;
+                }
+            }
+        }
 
     }
+
     private bool CheckIfMissed(int attackChance, int attackerPrecision, int targetAgility)
     {
         int hitChance = attackChance + attackerPrecision - targetAgility;

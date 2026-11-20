@@ -15,4 +15,5 @@ MonoBehaviour:
   AttackName: Scratch
   Damage: 10
   AttackPrecision: 80
+  StaminaCost: 5
   AttackType: 0

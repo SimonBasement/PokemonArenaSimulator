@@ -6,5 +6,6 @@ public class Attacks : ScriptableObject
     public string AttackName;
     public int Damage;
     public int AttackPrecision;
+    public int StaminaCost;
     [SerializeField] public AttackType AttackType;
 }

@@ -15,4 +15,5 @@ MonoBehaviour:
   AttackName: Distract
   Damage: 20
   AttackPrecision: 50
+  StaminaCost: 10
   AttackType: 1
